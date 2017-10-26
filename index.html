@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Slider Drag and Drop</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./dist/dragdrop.css">
+    <!-- <link rel="stylesheet" href="./src/dragdrop.css"> -->
     <style>
         
         .dragdrop-target {
@@ -56,11 +56,11 @@
             }).join('');
 
             $gifs.innerHTML = componentTemplate;
-
-            new Dragdrop((dom, dragdrop) => {
+            
+            new dragdrop.start((dom, obj) => {
                 dom.addEventListener('drop', (event) => {
-                    console.log('ORDER', dragdrop.orders);
-                });
+                    console.log( obj.orders );
+                })
             });
         })
         .catch((error) => console.log(error));

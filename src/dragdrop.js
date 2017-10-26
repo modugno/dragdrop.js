@@ -3,7 +3,7 @@
  * @author Guilherme Modugno - https://modugno.github.io 
  * @description DragDrop Elements
  */
-class Dragdrop {
+export class Dragdrop {
 
     constructor(...params) {
         this.elements = this.getElements();
@@ -194,13 +194,10 @@ class Dragdrop {
         target.addEventListener('drop', function(event) {
             let id = event.dataTransfer.getData('text');
             let el = document.getElementById(id);
-            
-            self.reOrder(this);
             self.opacityOff();
-
             self.changePosition(event, this.childNodes);
+
             this.appendChild(el);
-    
             if (!this.classList.contains('over')) {
                 this.classList.add('over');
             }
@@ -255,5 +252,4 @@ class Dragdrop {
         this.dispatchEventsElements();
         this.getOrders();
     }
-    
 }

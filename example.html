@@ -6,17 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Slider Drag and Drop</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./dist/dragdrop.css">
     <style>
         
         .dragdrop-target {
             border: 1px solid #ebebeb;
-            width: 120px;
-            height: 120px;
-            text-align: center;
             padding: 1em;
         }
-
+        
     </style>
     
 </head>
@@ -28,35 +24,35 @@
             <h1>Drag and Drop</h1>
         </div>
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="dragdrop-target">
-                    <img src="https://placehold.it/120x120" class="img-responsive dragdrop" data-id="5">
+                    <img src="https://camo.githubusercontent.com/684b272804eb3c227d9c38210c77cdc5d578cef8/687474703a2f2f692e737461636b2e696d6775722e636f6d2f4d6d7777322e706e67" class="img-responsive dragdrop" data-id="1">
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="dragdrop-target">
-                    <img src="https://placehold.it/120x120" class="img-responsive dragdrop" data-id="2">
+                    <img src="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/thumb/nodejslogo.png?1499963356" class="img-responsive dragdrop" data-id="2">
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="dragdrop-target"></div>
+            <div class="col-md-3">
+                <div class="dragdrop-target">
+                    <img src="https://avatars2.githubusercontent.com/u/139426?s=400&v=4" class="img-responsive dragdrop" data-id="2">
+                </div>
             </div>
-            <div class="col-md-2">
-                <div class="dragdrop-target"></div>
-            </div>
-            <div class="col-md-2">
-                <div class="dragdrop-target"></div>
-            </div>
-            <div class="col-md-2">
-                <div class="dragdrop-target"></div>
+            <div class="col-md-3">
+                <div class="dragdrop-target">
+                    <img src="https://avatars0.githubusercontent.com/u/6412038?s=200&v=4" class="img-responsive dragdrop" data-id="2">
+                </div>
             </div>
         </div>
     </div>
-
-    <script src="dist/dragdrop.min.js"></script>
+    
+    <script src="dist/dragdrop.js"></script>
     <script>
-        new Dragdrop((dom, obj) => {
-            dom.addEventListener('drop', (event) => console.log(obj.orders));
+        new dragdrop.start((dom, obj) => {
+            dom.addEventListener('drop', (event) => {
+                console.log( obj.orders );
+            })
         });
     </script>
 </body>
