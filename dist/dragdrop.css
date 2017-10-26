@@ -1,3 +1,17 @@
+[dragdrop] {
+    transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -webkit-transition: all 0.2s ease-out;
+    cursor: move;
+}
+
+[dragdrop].out {
+    opacity: 0.6;
+}
+
 [dragdrop].over {
     border: 3px dashed #333;
+    transform: scale(1.03);
+    -moz-transform: scale(1.03);
+    -webkit-transform: scale(1.03);
 }

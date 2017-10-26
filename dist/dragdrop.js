@@ -118,6 +118,68 @@ var Dragdrop = function () {
         }
 
         /**
+         * Remove Opacity in all elements
+         */
+
+    }, {
+        key: 'opacityOn',
+        value: function opacityOn(element) {
+            [].forEach.call(this.elements, function (el) {
+                if (el != element && !el.classList.contains('out')) {
+                    el.classList.add('out');
+                }
+            });
+        }
+
+        /**
+         * Add Opacity in all elements
+         */
+
+    }, {
+        key: 'opacityOff',
+        value: function opacityOff() {
+            [].forEach.call(this.elements, function (el) {
+                if (el.classList.contains('out')) {
+                    el.classList.remove('out');
+                }
+            });
+        }
+
+        /**
+         * Re Order elements on grid
+         * @param {NodeList|HTMLElement} target 
+         */
+
+    }, {
+        key: 'reOrder',
+        value: function reOrder(target) {
+            var parentId = event.dataTransfer.getData('parent');
+            var targetPosition = this.getTargetPosition(target.id);
+            var parentPosition = this.getTargetPosition(parentId);
+
+            if (targetPosition > parentPosition) {
+                for (var i = parentPosition; i < targetPosition; i++) {
+                    console.log(this.targets[i]);
+                }
+            } else {
+                for (var _i = parentPosition; _i > targetPosition; _i--) {
+                    console.log(this.targets[_i - 1]);
+                }
+            }
+        }
+
+        /**
+         * Get Target Position
+         * @param {String} targetId 
+         */
+
+    }, {
+        key: 'getTargetPosition',
+        value: function getTargetPosition(targetId) {
+            return targetId.split('-')[2];
+        }
+
+        /**
          * Dispatch events of targets
          */
 
@@ -170,8 +232,10 @@ var Dragdrop = function () {
     }, {
         key: 'dragstart',
         value: function dragstart(element) {
+            var self = this;
             element.addEventListener('dragstart', function (event) {
                 var parent = this.parentNode;
+                self.opacityOn(this);
                 event.dataTransfer.setData('parent', parent.id);
                 event.dataTransfer.setData('text/plain', this.id);
             });
@@ -189,6 +253,9 @@ var Dragdrop = function () {
             target.addEventListener('drop', function (event) {
                 var id = event.dataTransfer.getData('text');
                 var el = document.getElementById(id);
+
+                self.reOrder(this);
+                self.opacityOff();
 
                 self.changePosition(event, this.childNodes);
                 this.appendChild(el);

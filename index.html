@@ -33,7 +33,7 @@
     <!-- axios -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>
 
-    <script src="dist/dragdrop.min.js"></script>
+    <script src="dist/dragdrop.js"></script>
     <script>
 
         const $gifs = document.querySelector('#gifs-container');
@@ -57,8 +57,10 @@
 
             $gifs.innerHTML = componentTemplate;
 
-            new Dragdrop((dom, obj) => {
-                dom.addEventListener('drop', (event) => console.log(obj.orders));
+            new Dragdrop((dom, dragdrop) => {
+                dom.addEventListener('drop', (event) => {
+                    console.log('ORDER', dragdrop.orders);
+                });
             });
         })
         .catch((error) => console.log(error));

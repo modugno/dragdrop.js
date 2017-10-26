@@ -30,12 +30,12 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="dragdrop-target">
-                    <img src="./src/assets/band.png" class="img-responsive dragdrop" data-id="5">
+                    <img src="https://placehold.it/120x120" class="img-responsive dragdrop" data-id="5">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="dragdrop-target">
-                    <img src="./src/assets/band2.png" class="img-responsive dragdrop" data-id="HIAUSDHUIASDHI">
+                    <img src="https://placehold.it/120x120" class="img-responsive dragdrop" data-id="2">
                 </div>
             </div>
             <div class="col-md-2">
@@ -52,21 +52,10 @@
             </div>
         </div>
     </div>
-    
-    <!-- axios -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>
 
-    <script src="dist/dragdrop.js"></script>
+    <script src="dist/dragdrop.min.js"></script>
     <script>
-
-        axios.get('http://apiportal.band.uol.com.br/Portal/GetGifs?page=0')
-        .then((response) => {
-                
-        })
-        .catch((error) => console.log(error));
-
         new Dragdrop((dom, obj) => {
-
             dom.addEventListener('drop', (event) => console.log(obj.orders));
         });
     </script>
