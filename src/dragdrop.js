@@ -7,14 +7,54 @@ class Dragdrop {
 
     constructor(...params) {
         this.elements = this.getElements();
-        this.traitParams(params);
+        this.treatParams(params);
         this.targets  = document.querySelectorAll(this.elements.targets);
         this.elements = document.querySelectorAll(this.elements.element);
         this.orders = [];
         this.onInit();
     }
 
-    traitParams(params) {
+    /**
+     * Get Elements Mock
+     */
+    getElements() {
+        return {
+            element: '.dragdrop',
+            targets: '.dragdrop-target'
+        }        
+    }
+
+    /**
+     * Build and Get the order of elements 
+     */
+    getOrders() {
+        this.orders = [];
+        [].forEach.call(this.targets, (target) => {
+            if (target.childNodes.length) {  
+                target.childNodes.forEach(child => {
+                    if (child.tagName) {
+                        let elementId = child.getAttribute('data-id') || 0
+                        let order     = parseInt( target.getAttribute('dragdrop-order') );
+                        this.orders.push({ elementId: elementId, order: order })
+                    }
+                })
+            }
+        })
+    }
+
+    /**
+     * Merge elements
+     * @param {Object} elements 
+     */
+    mergeElements(elements) {
+        Object.assign(this.elements, elements);
+    }
+
+    /**
+     * Treat the params of constructor
+     * @param {Array} params 
+     */
+    treatParams(params) {
         if (params.length == 1) {
             if (typeof params[0] === 'object') {
                 this.mergeElements(params[0]);
@@ -28,17 +68,63 @@ class Dragdrop {
         }
     }
 
-    mergeElements(elements) {
-        Object.assign(this.elements, elements);
+    /**
+     * Change position of elements
+     * @param {Event} event 
+     * @param {NodeList|HTMLElement} childs 
+     */
+    changePosition(event, childs) {
+        if (childs.length) {
+            let parentId = event.dataTransfer.getData('parent');
+            let $parent = document.getElementById(parentId);
+            
+            childs.forEach(child => {
+                if (child.tagName) {
+                    $parent.appendChild(child);
+                }
+            })
+        }
     }
 
-    getElements() {
-        return {
-            element: '.dragdrop',
-            targets: '.dragdrop-target'
-        }        
+    /**
+     * Dispatch events of targets
+     */
+    dispatchEventsTarget() {
+        let index = 1;
+        [].forEach.call(this.targets, (target) => {
+            target.setAttribute('dragdrop', 'target');
+            target.setAttribute('dragdrop-order', index);
+            target.id = `dragdrop-target-${index}`;
+            
+            this.drop(target);
+            this.dragover(target);
+            this.dragleave(target);
+            this.dragend(target);
+
+            index++;
+        });
     }
 
+    /**
+     * Dispatch events of elements
+     */
+    dispatchEventsElements() {
+        let index = 1;
+        [].forEach.call(this.elements, (element) => {
+            element.setAttribute('dragdrop', 'element');
+            element.setAttribute('draggable', 'true');
+            element.id = `dragdrop-${index}`;
+
+            this.dragstart(element);
+
+            index++;
+        });
+    }
+
+    /**
+     * When event Dragstart is called
+     * @param {NodeList|HTMLElement} element 
+     */
     dragstart(element) {
         element.addEventListener('dragstart', function(event) {
             let parent = this.parentNode;
@@ -47,6 +133,10 @@ class Dragdrop {
         });
     }
 
+    /**
+     * When event Drop is called
+     * @param {NodeList|HTMLElement} target 
+     */
     drop(target) {
         let self = this;
         target.addEventListener('drop', function(event) {
@@ -65,21 +155,10 @@ class Dragdrop {
 
     }
 
-    getOrders() {
-        this.orders = [];
-        [].forEach.call(this.targets, (target) => {
-            if (target.childNodes.length) {  
-                target.childNodes.forEach(child => {
-                    if (child.tagName) {
-                        let elementId = child.getAttribute('data-id') || 0
-                        let order     = parseInt( target.getAttribute('dragdrop-order') );
-                        this.orders.push({ element: elementId, order: order })
-                    }
-                })
-            }
-        })
-    }
-
+    /**
+     * When event Dragover is called
+     * @param {NodeList|HTMLElement} target 
+     */
     dragover(target) {
         target.addEventListener('dragover', function(event) {
             event.preventDefault();
@@ -89,6 +168,10 @@ class Dragdrop {
         });
     }
 
+    /**
+     * When event Dragleave is called
+     * @param {NodeList|HTMLElement} target 
+     */
     dragleave(target) {
         target.addEventListener('dragleave', function(event) {
             if (this.classList.contains('over')) {
@@ -97,6 +180,10 @@ class Dragdrop {
         });
     }
 
+    /**
+     * When event Dragend is called
+     * @param {NodeList|HTMLElement} target 
+     */
     dragend(target) {
         target.addEventListener('dragend', function(event) {
             if (this.classList.contains('over')) {
@@ -104,49 +191,10 @@ class Dragdrop {
             }
         });
     }
-
-    dispatchEventsTarget() {
-        let index = 1;
-        [].forEach.call(this.targets, (target) => {
-            target.setAttribute('dragdrop', 'target');
-            target.setAttribute('dragdrop-order', index);
-            target.id = `dragdrop-target-${index}`;
-            
-            this.drop(target);
-            this.dragover(target);
-            this.dragleave(target);
-            this.dragend(target);
-
-            index++;
-        });
-    }
-
-    dispatchEventsElements() {
-        let index = 1;
-        [].forEach.call(this.elements, (element) => {
-            element.setAttribute('dragdrop', 'element');
-            element.setAttribute('draggable', 'true');
-            element.id = `dragdrop-${index}`;
-
-            this.dragstart(element);
-
-            index++;
-        });
-    }
-
-    changePosition(event, childs) {
-        if (childs.length) {
-            let parentId = event.dataTransfer.getData('parent');
-            let $parent = document.getElementById(parentId);
-            
-            childs.forEach(child => {
-                if (child.tagName) {
-                    $parent.appendChild(child);
-                }
-            })
-        }
-    }
     
+    /**
+     * On Init
+     */
     onInit() {
         this.dispatchEventsTarget();
         this.dispatchEventsElements();

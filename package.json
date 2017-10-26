@@ -4,9 +4,9 @@
   "description": "DragDrop Elements",
   "main": "dragdrop.js",
   "scripts": {
-    "build:dev": "set NODE_ENV=development ./node_modules/.bin/webpack",
-    "build": "./node_modules/.bin/webpack",
-    "serve": "npm run build:dev && webpack-dev-server"
+    "build": "babel src/ -d dist/ --source-maps",
+    "watch": "babel src/ -d dist/ --source-maps --watch",
+    "build:prod": "npm run build && uglifyjs dist/dragdrop.js -o dist/dragdrop.min.js"
   },
   "repository": {
     "type": "git",
@@ -15,20 +15,14 @@
   "keywords": [
     "dragdrop",
     "js",
-    "es6"
+    "es6",
+    "javascript"
   ],
   "author": "Guilherme Modugno <modugnoguilherme@gmail.com> (https://modugno.github.io/)",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-es2015-native-modules": "^6.9.4",
-    "eslint": "^4.0.0",
-    "eslint-config-airbnb-base": "^12.0.0",
-    "eslint-plugin-import": "^2.7.0",
-    "http-server": "^0.10.0",
-    "webpack": "^3.0.0-rc.2",
-    "webpack-dev-server": "^2.9.1",
-    "webpack-dev-middleware": "^1.12.0"
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0",
+    "uglify-js": "^3.1.5"
   }
 }

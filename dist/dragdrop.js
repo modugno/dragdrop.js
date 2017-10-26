@@ -1,230 +1,265 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "dist/";
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports) {
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  * Dragdrop.js
  * @author Guilherme Modugno - https://modugno.github.io 
  * @description DragDrop Elements
  */
-class Dragdrop {
+var Dragdrop = function () {
+    function Dragdrop() {
+        _classCallCheck(this, Dragdrop);
 
-    constructor(...params) {
         this.elements = this.getElements();
-        this.traitParams(params);
-        this.targets  = document.querySelectorAll(this.elements.targets);
+
+        for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
+            params[_key] = arguments[_key];
+        }
+
+        this.treatParams(params);
+        this.targets = document.querySelectorAll(this.elements.targets);
         this.elements = document.querySelectorAll(this.elements.element);
         this.orders = [];
         this.onInit();
     }
 
-    traitParams(params) {
-        if (params.length == 1) {
-            if (typeof params[0] === 'object') {
-                this.mergeElements(params[0]);
-            } else if (typeof params[0] === 'function') {
-                params[0](document, this);
-            }
-        } 
-        else if ((params.length > 1) && (typeof params[0] == 'object')) {
-            this.mergeElements(params[0]);
-            params[1](document, this);
+    /**
+     * Get Elements Mock
+     */
+
+
+    _createClass(Dragdrop, [{
+        key: 'getElements',
+        value: function getElements() {
+            return {
+                element: '.dragdrop',
+                targets: '.dragdrop-target'
+            };
         }
-    }
 
-    mergeElements(elements) {
-        Object.assign(this.elements, elements);
-    }
+        /**
+         * Build and Get the order of elements 
+         */
 
-    getElements() {
-        return {
-            element: '.dragdrop',
-            targets: '.dragdrop-target'
-        }        
-    }
+    }, {
+        key: 'getOrders',
+        value: function getOrders() {
+            var _this = this;
 
-    dragstart(element) {
-        element.addEventListener('dragstart', function(event) {
-            let parent = this.parentNode;
-            event.dataTransfer.setData('parent', parent.id);
-            event.dataTransfer.setData('text/plain', this.id);
-        });
-    }
-
-    drop(target) {
-        let self = this;
-        target.addEventListener('drop', function(event) {
-            let id = event.dataTransfer.getData('text');
-            let el = document.getElementById(id);
-            
-            self.changePosition(event, this.childNodes);
-            this.appendChild(el);
-    
-            if (!this.classList.contains('over')) {
-                this.classList.add('over');
-            }
-            
-            self.getOrders();
-        });
-
-    }
-
-    getOrders() {
-        this.orders = [];
-        [].forEach.call(this.targets, (target) => {
-            if (target.childNodes.length) {  
-                target.childNodes.forEach(child => {
-                    if (child.tagName) {
-                        let elementId = child.getAttribute('data-id') || 0
-                        let order     = parseInt( target.getAttribute('dragdrop-order') );
-                        this.orders.push({ element: elementId, order: order })
-                    }
-                })
-            }
-        })
-    }
-
-    dragover(target) {
-        target.addEventListener('dragover', function(event) {
-            event.preventDefault();
-            if (!this.classList.contains('over')) {
-                this.classList.add('over');
-            }
-        });
-    }
-
-    dragleave(target) {
-        target.addEventListener('dragleave', function(event) {
-            if (this.classList.contains('over')) {
-                this.classList.remove('over');
-            }
-        });
-    }
-
-    dragend(target) {
-        target.addEventListener('dragend', function(event) {
-            if (this.classList.contains('over')) {
-                this.classList.remove('over');
-            }
-        });
-    }
-
-    dispatchEventsTarget() {
-        let index = 1;
-        [].forEach.call(this.targets, (target) => {
-            target.setAttribute('dragdrop', 'target');
-            target.setAttribute('dragdrop-order', index);
-            target.id = `dragdrop-target-${index}`;
-            
-            this.drop(target);
-            this.dragover(target);
-            this.dragleave(target);
-            this.dragend(target);
-
-            index++;
-        });
-    }
-
-    dispatchEventsElements() {
-        let index = 1;
-        [].forEach.call(this.elements, (element) => {
-            element.setAttribute('dragdrop', 'element');
-            element.setAttribute('draggable', 'true');
-            element.id = `dragdrop-${index}`;
-
-            this.dragstart(element);
-
-            index++;
-        });
-    }
-
-    changePosition(event, childs) {
-        if (childs.length) {
-            let parentId = event.dataTransfer.getData('parent');
-            let $parent = document.getElementById(parentId);
-            
-            childs.forEach(child => {
-                if (child.tagName) {
-                    $parent.appendChild(child);
+            this.orders = [];
+            [].forEach.call(this.targets, function (target) {
+                if (target.childNodes.length) {
+                    target.childNodes.forEach(function (child) {
+                        if (child.tagName) {
+                            var elementId = child.getAttribute('data-id') || 0;
+                            var order = parseInt(target.getAttribute('dragdrop-order'));
+                            _this.orders.push({ elementId: elementId, order: order });
+                        }
+                    });
                 }
-            })
+            });
         }
-    }
-    
-    onInit() {
-        this.dispatchEventsTarget();
-        this.dispatchEventsElements();
-        this.getOrders();
-    }
-    
-}
 
+        /**
+         * Merge elements
+         * @param {Object} elements 
+         */
 
-/***/ })
-/******/ ]);
+    }, {
+        key: 'mergeElements',
+        value: function mergeElements(elements) {
+            Object.assign(this.elements, elements);
+        }
+
+        /**
+         * Treat the params of constructor
+         * @param {Array} params 
+         */
+
+    }, {
+        key: 'treatParams',
+        value: function treatParams(params) {
+            if (params.length == 1) {
+                if (_typeof(params[0]) === 'object') {
+                    this.mergeElements(params[0]);
+                } else if (typeof params[0] === 'function') {
+                    params[0](document, this);
+                }
+            } else if (params.length > 1 && _typeof(params[0]) == 'object') {
+                this.mergeElements(params[0]);
+                params[1](document, this);
+            }
+        }
+
+        /**
+         * Change position of elements
+         * @param {Event} event 
+         * @param {NodeList|HTMLElement} childs 
+         */
+
+    }, {
+        key: 'changePosition',
+        value: function changePosition(event, childs) {
+            if (childs.length) {
+                var parentId = event.dataTransfer.getData('parent');
+                var $parent = document.getElementById(parentId);
+
+                childs.forEach(function (child) {
+                    if (child.tagName) {
+                        $parent.appendChild(child);
+                    }
+                });
+            }
+        }
+
+        /**
+         * Dispatch events of targets
+         */
+
+    }, {
+        key: 'dispatchEventsTarget',
+        value: function dispatchEventsTarget() {
+            var _this2 = this;
+
+            var index = 1;
+            [].forEach.call(this.targets, function (target) {
+                target.setAttribute('dragdrop', 'target');
+                target.setAttribute('dragdrop-order', index);
+                target.id = 'dragdrop-target-' + index;
+
+                _this2.drop(target);
+                _this2.dragover(target);
+                _this2.dragleave(target);
+                _this2.dragend(target);
+
+                index++;
+            });
+        }
+
+        /**
+         * Dispatch events of elements
+         */
+
+    }, {
+        key: 'dispatchEventsElements',
+        value: function dispatchEventsElements() {
+            var _this3 = this;
+
+            var index = 1;
+            [].forEach.call(this.elements, function (element) {
+                element.setAttribute('dragdrop', 'element');
+                element.setAttribute('draggable', 'true');
+                element.id = 'dragdrop-' + index;
+
+                _this3.dragstart(element);
+
+                index++;
+            });
+        }
+
+        /**
+         * When event Dragstart is called
+         * @param {NodeList|HTMLElement} element 
+         */
+
+    }, {
+        key: 'dragstart',
+        value: function dragstart(element) {
+            element.addEventListener('dragstart', function (event) {
+                var parent = this.parentNode;
+                event.dataTransfer.setData('parent', parent.id);
+                event.dataTransfer.setData('text/plain', this.id);
+            });
+        }
+
+        /**
+         * When event Drop is called
+         * @param {NodeList|HTMLElement} target 
+         */
+
+    }, {
+        key: 'drop',
+        value: function drop(target) {
+            var self = this;
+            target.addEventListener('drop', function (event) {
+                var id = event.dataTransfer.getData('text');
+                var el = document.getElementById(id);
+
+                self.changePosition(event, this.childNodes);
+                this.appendChild(el);
+
+                if (!this.classList.contains('over')) {
+                    this.classList.add('over');
+                }
+
+                self.getOrders();
+            });
+        }
+
+        /**
+         * When event Dragover is called
+         * @param {NodeList|HTMLElement} target 
+         */
+
+    }, {
+        key: 'dragover',
+        value: function dragover(target) {
+            target.addEventListener('dragover', function (event) {
+                event.preventDefault();
+                if (!this.classList.contains('over')) {
+                    this.classList.add('over');
+                }
+            });
+        }
+
+        /**
+         * When event Dragleave is called
+         * @param {NodeList|HTMLElement} target 
+         */
+
+    }, {
+        key: 'dragleave',
+        value: function dragleave(target) {
+            target.addEventListener('dragleave', function (event) {
+                if (this.classList.contains('over')) {
+                    this.classList.remove('over');
+                }
+            });
+        }
+
+        /**
+         * When event Dragend is called
+         * @param {NodeList|HTMLElement} target 
+         */
+
+    }, {
+        key: 'dragend',
+        value: function dragend(target) {
+            target.addEventListener('dragend', function (event) {
+                if (this.classList.contains('over')) {
+                    this.classList.remove('over');
+                }
+            });
+        }
+
+        /**
+         * On Init
+         */
+
+    }, {
+        key: 'onInit',
+        value: function onInit() {
+            this.dispatchEventsTarget();
+            this.dispatchEventsElements();
+            this.getOrders();
+        }
+    }]);
+
+    return Dragdrop;
+}();
 //# sourceMappingURL=dragdrop.js.map
