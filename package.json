@@ -1,0 +1,21 @@
+{
+  "name": "dragdrop",
+  "version": "1.0.0",
+  "description": "DragDrop Elements",
+  "main": "dragdrop-events.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/gmodugno/dragdrop.git"
+  },
+  "keywords": [
+    "dragdrop",
+    "js",
+    "es6"
+  ],
+  "author": "Guilherme Modugno",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/gmodugno/dragdrop#readme"
+}

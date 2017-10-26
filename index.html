@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Slider Drag and Drop</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dragdrop.css">
+    <style>
+        
+        .dragdrop-target {
+            border: 1px solid #ebebeb;
+            width: 120px;
+            height: 120px;
+            text-align: center;
+            padding: 1em;
+        }
+        
+        #target.over {
+            border: 3px dashed #333;
+        }
+    </style>
+    
+</head>
+<body>
+    
+    <div class="container">
+        
+        <div class="page-header">
+            <h1>Drag and Drop</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="dragdrop-target">
+                    <img src="band.png" class="img-responsive dragdrop" data-id="5">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="dragdrop-target">
+                    <img src="band2.png" class="img-responsive dragdrop" data-id="HIAUSDHUIASDHI">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="dragdrop-target"></div>
+            </div>
+            <div class="col-md-2">
+                <div class="dragdrop-target"></div>
+            </div>
+            <div class="col-md-2">
+                <div class="dragdrop-target"></div>
+            </div>
+            <div class="col-md-2">
+                <div class="dragdrop-target"></div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script src="dragdrop.js"></script>
+    <script>
+
+        new Dragdrop((dom, obj) => {
+
+            dom.addEventListener('drop', function(event) {
+                console.log(obj.orders);
+            });
+        });
+    </script>
+</body>
+</html>
