@@ -1,7 +1,7 @@
 {
-  "name": "dragdrop",
+  "name": "dragdrop-js",
   "version": "1.0.0",
-  "description": "DragDrop Elements",
+  "description": "Dragdrop in Vanilla Javascript ES6",
   "main": "dist/dragdrop.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack --colors --progress --devtool=source-maps",
@@ -15,7 +15,9 @@
     "dragdrop",
     "js",
     "es6",
-    "javascript"
+    "javascript",
+    "api",
+    "webpack"
   ],
   "author": "Guilherme Modugno <modugnoguilherme@gmail.com> (https://modugno.github.io/)",
   "license": "MIT",
