@@ -57,9 +57,9 @@
 
             $gifs.innerHTML = componentTemplate;
             
-            new dragdrop.start((dom, obj) => {
+            new dragdrop.start((dom, api) => {
                 dom.addEventListener('drop', (event) => {
-                    console.log( obj.orders );
+                    console.log( api.orders );
                 })
             });
         })

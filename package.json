@@ -4,7 +4,7 @@
   "description": "DragDrop Elements",
   "main": "dist/dragdrop.js",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --colors --progress",
+    "build": "./node_modules/.bin/webpack --colors --progress --devtool=source-maps",
     "watch": "npm run build -- --watch"
   },
   "repository": {
