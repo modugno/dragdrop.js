@@ -8,7 +8,7 @@ If you're anxious like me, and like to see the end result of the project, here's
 You can install it on npm.
 
 ```
-npm install dragdrop --save
+npm install dragdrop-js --save
 ```
 
 Or [download a ZIP](https://github.com/modugno/dragdrop.js/archive/master.zip) file.
