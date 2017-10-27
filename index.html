@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Slider Drag and Drop</title>
+    <title>Dragdrop.js - Vanilla Javascript ES6</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="./src/dragdrop.css"> -->
     <style>
         
         .dragdrop-target {
             border: 1px solid #ebebeb;
-            text-align: center;
             padding: 1em;
         }
-
+        
     </style>
     
 </head>
@@ -22,49 +20,68 @@
     
     <div class="container">
         
-        <div class="page-header">
-            <h1>Drag and Drop</h1>
+        <div class="page-header clearfix">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation">
+                        <a class="github-button" href="https://github.com/modugno/github-buttons/subscription" data-icon="octicon-eye" aria-label="Watch ntkme/github-buttons on GitHub">Watch</a>
+                    </li>   
+                    <li role="presentation">
+                            <a class="github-button" href="https://github.com/modugno/dragdrop.js/archive/master.zip" data-icon="octicon-cloud-download" aria-label="Download ntkme/github-buttons on GitHub">Download</a>
+                    </li>
+                    <li role="presentation">
+                        <a class="github-button" href="https://github.com/modugno" aria-label="Follow @modugno on GitHub">Follow @modugno</a>
+                    </li>
+
+                </ul>
+            </nav>
+            <h3 class="text-muted">Dragdrop.js</h3>
         </div>
-        <div class="row" id="gifs-container">
-           <!-- component -->
+        
+        <div class="jumbotron">
+            <h1>Dragdrop.js</h1>
+            <p class="lead">
+                Dragdrop elements with Vanilla Javascript ES6, see the 
+                <a href="https://github.com/modugno/dragdrop.js"><strong>Documentation</strong></a>
+            </p>
+        </div>
+        <div class="page-header">
+            <p class="lead text-muted">Drag and Drop the elements bellow =)</p>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="dragdrop-target">
+                    <img src="https://camo.githubusercontent.com/684b272804eb3c227d9c38210c77cdc5d578cef8/687474703a2f2f692e737461636b2e696d6775722e636f6d2f4d6d7777322e706e67" class="img-responsive dragdrop" data-id="1">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dragdrop-target">
+                    <img src="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/thumb/nodejslogo.png?1499963356" class="img-responsive dragdrop" data-id="2">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dragdrop-target">
+                    <img src="https://avatars2.githubusercontent.com/u/139426?s=400&v=4" class="img-responsive dragdrop" data-id="3">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dragdrop-target">
+                    <img src="https://avatars0.githubusercontent.com/u/6412038?s=200&v=4" class="img-responsive dragdrop" data-id="4">
+                </div>
+            </div>
         </div>
     </div>
     
-    <!-- axios -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>
-
+    <!-- github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    
     <script src="dist/dragdrop.js"></script>
     <script>
-
-        const $gifs = document.querySelector('#gifs-container');
-
-        axios.get('http://paauth.bandeirantes.com.br/Home/Slider/?id=entretenimento')
-        .then((response) => {
-            
-            let componentTemplate = response.data.result.sliders.map((slider) => {
-                return `
-                    <div class="col-md-3">
-                        <div class="dragdrop-target">
-                            <div class="dragdrop" data-id="${slider.id}">
-                                <img src="${slider.thumb}" class="img-responsive">    
-                                <h4 class="text-center">${slider.title}</h4>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-            }).join('');
-
-            $gifs.innerHTML = componentTemplate;
-            
-            new dragdrop.start((dom, api) => {
-                dom.addEventListener('drop', (event) => {
-                    console.log( api.orders );
-                })
-            });
-        })
-        .catch((error) => console.log(error));
-
+        new dragdrop.start((dom, api) => {
+            dom.addEventListener('drop', (event) => {
+                console.log( api.orders );
+            })
+        });
     </script>
 </body>
 </html>
