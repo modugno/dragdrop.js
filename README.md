@@ -1,7 +1,7 @@
 # dragdrop.js
 > Dragdrop in Vanilla Javascript ES6
 
-If you're anxious like me, and like to see the end result of the project, here's a [demo](http://modugno.github.io) =)
+If you're anxious like me, and like to see the end result of the project, here's a [demo](https://modugno.github.io/dragdrop.js) =)
 
 ## Install
 
