@@ -32,6 +32,7 @@ export class DragdropEvents extends Helpers {
     drop(target) {
         let self = this;
         target.addEventListener('drop', function(event) {
+            event.preventDefault();
             let id = event.dataTransfer.getData('text');
             let el = document.getElementById(id);
             self.opacityOff();
@@ -43,6 +44,7 @@ export class DragdropEvents extends Helpers {
             }
             
             self.getOrders();
+            return false;
         });
 
     }
@@ -57,6 +59,7 @@ export class DragdropEvents extends Helpers {
             if (!this.classList.contains('over')) {
                 this.classList.add('over');
             }
+            return false;
         });
     }
 
@@ -66,9 +69,11 @@ export class DragdropEvents extends Helpers {
      */
     dragleave(target) {
         target.addEventListener('dragleave', function(event) {
+            event.preventDefault();
             if (this.classList.contains('over')) {
                 this.classList.remove('over');
             }
+            return false;
         });
     }
 
@@ -78,9 +83,11 @@ export class DragdropEvents extends Helpers {
      */
     dragend(target) {
         target.addEventListener('dragend', function(event) {
+            event.preventDefault();
             if (this.classList.contains('over')) {
                 this.classList.remove('over');
             }
+            return false;
         });
     }
 }
