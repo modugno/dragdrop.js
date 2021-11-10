@@ -19,6 +19,16 @@ export class DragdropEvents extends Helpers {
         let self = this;
         element.addEventListener('dragstart', function(event) {
             let parent = this.parentNode;
+           
+            // Prevent drag if user has focus in input inside the container
+            var inputsInContainer = parent.getElementsByTagName('input');
+            for (let i = 0; i < inputsInContainer.length; i++) {
+                if (inputsInContainer[i] === document.activeElement) {
+                    event.preventDefault();
+                    return;
+                }
+            }
+            
             self.opacityOn(this);
             event.dataTransfer.setData('parent', parent.id);
             event.dataTransfer.setData('text/plain', this.id);
